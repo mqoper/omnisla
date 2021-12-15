@@ -10,7 +10,17 @@
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
 
-  config.omniauth :slack, '2694475882850.2707181232417', 'a8f6374435f3f96f6efe4bac5f216c89', scope: 'identity.basic', name: :sign_in_with_slack
+  config.omniauth :github, Rails.application.credentials.dig(:github, :github_client_id),
+                  Rails.application.credentials.dig(:github, :github_client_secret), scope:'user,public_repo'
+
+  config.omniauth :slack, '2694475882850.2707181232417', 'a8f6374435f3f96f6efe4bac5f216c89',
+                  scope: 'team:read,users:read,identify,bot'
+                  # name: :sign_in_with_slack
+
+  OmniAuth.config.allowed_request_methods = [:post]
+
+  # OmniAuth.config.allowed_request_methods = [:post, :get]
+  # config.omniauth_path_prefix = "/users/auth"
 
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
